@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import s from './ContactForm.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { addItem } from 'redux/contacts/actions';
+import { addItem } from 'redux/contacts/operations';
 import { getItems } from 'redux/contacts/selectors';
 
 const Fields = {
