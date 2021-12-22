@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import s from './ContactForm.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { addItem } from 'redux/contacts/operations';
-import { getItems } from 'redux/contacts/selectors';
+import { getItems, addItem } from 'redux/contacts';
 
 const Fields = {
   NAME: 'name',
@@ -44,16 +43,18 @@ const ContactForm = () => {
   const handleAddContact = e => {
     e.preventDefault();
     const normName = normalize(name);
-    const isDuplicate = items.some(
+    const duplicate = items.find(
       item => item.name === normName || item.number === number,
     );
 
-    if (isDuplicate) {
-      alert(`${normName} is already in contacts.`);
+    if (duplicate) {
+      alert(
+        `Such contact already exists: ${duplicate.name}: ${duplicate.number}`,
+      );
       return;
     }
 
-    dispatch(addItem(normName, number));
+    dispatch(addItem({ name: normName, number }));
     setName('');
     setNumber('');
   };

@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { fetchItems, addItem, removeItem } from './operations';
 
 const initialState = {
   items: [],
@@ -12,41 +13,42 @@ const slice = createSlice({
   name: 'contacts',
   initialState,
   reducers: {
-    fetchItemsRequest: state => {
+    setFilter: (state, { payload }) => {
+      state.filter = payload;
+    },
+  },
+  extraReducers: {
+    [fetchItems.pending]: state => {
       console.log('GET request sent');
       state.isLoading = true;
     },
-    fetchItemsSuccess: (state, { payload }) => {
+    [fetchItems.fulfilled]: (state, { payload }) => {
       state.items = payload;
       state.isLoading = false;
     },
-    fetchItemsError: (state, { payload }) => {
+    [fetchItems.rejected]: (state, { payload }) => {
       console.log(payload);
       state.isLoading = false;
     },
 
-    addItemRequest: () => {
+    [addItem.pending]: () => {
       console.log('POST request sent');
     },
-    addItemSuccess: (state, { payload }) => {
+    [addItem.fulfilled]: (state, { payload }) => {
       state.items.push(payload);
     },
-    addItemError: (_, { payload }) => {
+    [addItem.rejected]: (_, { payload }) => {
       console.log(payload);
     },
 
-    removeItemRequest: () => {
-      console.log('removeETE request sent');
+    [removeItem.pending]: () => {
+      console.log('DELETE request sent');
     },
-    removeItemSuccess: (state, { payload }) => {
+    [removeItem.fulfilled]: (state, { payload }) => {
       state.items = state.items.filter(item => item.id !== payload);
     },
-    removeItemError: (_, { payload }) => {
+    [removeItem.rejected]: (_, { payload }) => {
       console.log(payload);
-    },
-
-    setFilter: (state, { payload }) => {
-      state.filter = payload;
     },
   },
 });
