@@ -5,7 +5,7 @@ const initialState = {
   items: [],
   isLoading: false,
   isAdding: false,
-  deletingId: null,
+  deletingIds: [],
   filter: '',
 };
 
@@ -48,15 +48,15 @@ const slice = createSlice({
 
     [removeItem.pending]: (state, { meta }) => {
       console.log('DELETE request sent');
-      state.deletingId = meta.arg;
+      state.deletingIds.push(meta.arg);
     },
     [removeItem.fulfilled]: (state, { payload }) => {
       state.items = state.items.filter(item => item.id !== payload);
-      state.deletingId = null;
+      state.deletingIds.filter(id => id !== payload);
     },
     [removeItem.rejected]: (state, { payload }) => {
       console.log(payload);
-      state.deletingId = null;
+      state.deletingIds.filter(id => id !== payload);
     },
   },
 });

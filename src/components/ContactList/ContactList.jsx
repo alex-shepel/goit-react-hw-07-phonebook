@@ -6,14 +6,14 @@ import {
   removeItem,
   getIsLoading,
   getFilteredItems,
-  getDeletingId,
+  getDeletingIds,
 } from 'redux/contacts';
 import Spinner from 'components/Spinner';
 
 const ContactList = () => {
   const items = useSelector(getFilteredItems);
   const isLoading = useSelector(getIsLoading);
-  const deletingId = useSelector(getDeletingId);
+  const deletingIds = useSelector(getDeletingIds);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -34,7 +34,11 @@ const ContactList = () => {
             <span>{name}</span>
             <span className={s.number}>{number}</span>
           </p>
-          {deletingId === id ? <Spinner /> : createDeleteButton(id)}
+          {deletingIds.some(delId => delId === id) ? (
+            <Spinner />
+          ) : (
+            createDeleteButton(id)
+          )}
         </li>
       ))}
     </ul>

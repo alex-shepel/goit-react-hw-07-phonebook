@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import s from './ContactForm.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getItems, addItem } from 'redux/contacts';
+import { getItems, addItem, getIsAdding } from 'redux/contacts';
+import Spinner from '../Spinner';
 
 const Fields = {
   NAME: 'name',
@@ -12,6 +13,7 @@ const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const items = useSelector(getItems);
+  const isAdding = useSelector(getIsAdding);
   const dispatch = useDispatch();
 
   const normalize = name => {
@@ -49,7 +51,7 @@ const ContactForm = () => {
 
     if (duplicate) {
       alert(
-        `Such contact already exists: ${duplicate.name}: ${duplicate.number}`,
+        `Such contact already exists!\n${duplicate.name} ${duplicate.number}`,
       );
       return;
     }
@@ -58,6 +60,12 @@ const ContactForm = () => {
     setName('');
     setNumber('');
   };
+
+  const createAddButton = () => (
+    <button className={s.button} type="submit">
+      Add contact
+    </button>
+  );
 
   return (
     <form className={s.form} onSubmit={handleAddContact}>
@@ -85,9 +93,7 @@ const ContactForm = () => {
           required
         />
       </label>
-      <button className={s.button} type="submit">
-        Add contact
-      </button>
+      {isAdding ? <Spinner /> : createAddButton()}
     </form>
   );
 };

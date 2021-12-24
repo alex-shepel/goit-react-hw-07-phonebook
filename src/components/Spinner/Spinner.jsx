@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const Spinner = ({ color = '#888' }) => {
   return (
-    <Loader type="Oval" color={color} height={40} width={40} timeout={0} />
+    <Loader type="Oval" color={color} height={18} width={18} timeout={0} />
   );
 };
 
