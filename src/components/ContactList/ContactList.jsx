@@ -20,15 +20,13 @@ const ContactList = () => {
     dispatch(fetchItems());
   }, [dispatch]);
 
-  const renderDeleteButton = id => {
-    return (
-      <button type="button" onClick={() => dispatch(removeItem(id))}>
-        Delete
-      </button>
-    );
-  };
+  const createDeleteButton = id => (
+    <button type="button" onClick={() => dispatch(removeItem(id))}>
+      Delete
+    </button>
+  );
 
-  const list = (
+  const createList = () => (
     <ul className={s.list}>
       {items.map(({ id, name, number }) => (
         <li className={s.item} key={id}>
@@ -36,13 +34,13 @@ const ContactList = () => {
             <span>{name}</span>
             <span className={s.number}>{number}</span>
           </p>
-          {deletingId === id ? <Spinner /> : renderDeleteButton(id)}
+          {deletingId === id ? <Spinner /> : createDeleteButton(id)}
         </li>
       ))}
     </ul>
   );
 
-  return <>{isLoading ? <Spinner /> : list}</>;
+  return <>{isLoading ? <Spinner /> : createList()}</>;
 };
 
 export default ContactList;
