@@ -2,7 +2,8 @@ import { useState } from 'react';
 import s from './ContactForm.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getItems, addItem, getIsAdding } from 'redux/contacts';
-import Spinner from '../Spinner';
+import Spinner from 'components/Spinner';
+import { toast, ToastContainer } from 'react-toastify';
 
 const Fields = {
   NAME: 'name',
@@ -50,9 +51,7 @@ const ContactForm = () => {
     );
 
     if (duplicate) {
-      alert(
-        `Such contact already exists!\n${duplicate.name} ${duplicate.number}`,
-      );
+      toast.info(`${duplicate.name} ${duplicate.number} already exists!`);
       return;
     }
 
@@ -68,33 +67,48 @@ const ContactForm = () => {
   );
 
   return (
-    <form className={s.form} onSubmit={handleAddContact}>
-      <label className={s.field}>
-        Name
-        <input
-          type="text"
-          name="name"
-          value={name}
-          onChange={handleInputContact}
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          required
+    <>
+      {
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
         />
-      </label>
-      <label className={s.field}>
-        Number
-        <input
-          type="tel"
-          name="number"
-          value={number}
-          onChange={handleInputContact}
-          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          required
-        />
-      </label>
-      {isAdding ? <Spinner /> : createAddButton()}
-    </form>
+      }
+      <form className={s.form} onSubmit={handleAddContact}>
+        <label className={s.field}>
+          Name
+          <input
+            type="text"
+            name="name"
+            value={name}
+            onChange={handleInputContact}
+            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+            required
+          />
+        </label>
+        <label className={s.field}>
+          Number
+          <input
+            type="tel"
+            name="number"
+            value={number}
+            onChange={handleInputContact}
+            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            required
+          />
+        </label>
+        {isAdding ? <Spinner /> : createAddButton()}
+      </form>
+    </>
   );
 };
 
