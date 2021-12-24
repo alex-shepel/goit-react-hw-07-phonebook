@@ -16,5 +16,5 @@ code {
 }
 
 :root {
-  --toastify-color-info: #aaa;
+  --toastify-color-error: #aaa;
 }

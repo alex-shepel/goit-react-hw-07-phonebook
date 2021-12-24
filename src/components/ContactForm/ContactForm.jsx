@@ -51,7 +51,7 @@ const ContactForm = () => {
     );
 
     if (duplicate) {
-      toast.info(`${duplicate.name} ${duplicate.number} already exists!`);
+      toast.error(`${duplicate.name} ${duplicate.number} already exists!`);
       return;
     }
 
