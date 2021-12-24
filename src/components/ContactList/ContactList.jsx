@@ -6,17 +6,27 @@ import {
   removeItem,
   getIsLoading,
   getFilteredItems,
+  getDeletingId,
 } from 'redux/contacts';
 import Spinner from 'components/Spinner';
 
 const ContactList = () => {
   const items = useSelector(getFilteredItems);
   const isLoading = useSelector(getIsLoading);
+  const deletingId = useSelector(getDeletingId);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchItems());
   }, [dispatch]);
+
+  const renderDeleteButton = id => {
+    return (
+      <button type="button" onClick={() => dispatch(removeItem(id))}>
+        Delete
+      </button>
+    );
+  };
 
   const list = (
     <ul className={s.list}>
@@ -26,9 +36,7 @@ const ContactList = () => {
             <span>{name}</span>
             <span className={s.number}>{number}</span>
           </p>
-          <button type="button" onClick={() => dispatch(removeItem(id))}>
-            Delete
-          </button>
+          {deletingId === id ? <Spinner /> : renderDeleteButton(id)}
         </li>
       ))}
     </ul>

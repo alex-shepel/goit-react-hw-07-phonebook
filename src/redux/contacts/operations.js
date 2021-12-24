@@ -35,6 +35,7 @@ const removeItem = createAsyncThunk(
       return rejectWithValue(error);
     }
   },
+  ({ arg, requestId }, { getState, extra }) => {},
 );
 
 export { fetchItems, addItem, removeItem };
