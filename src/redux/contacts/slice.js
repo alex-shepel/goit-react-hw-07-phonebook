@@ -4,6 +4,8 @@ import { fetchItems, addItem, removeItem } from './operations';
 const initialState = {
   items: [],
   isLoading: false,
+  isAdding: false,
+  isDeleting: false,
   filter: '',
 };
 
@@ -31,24 +33,30 @@ const slice = createSlice({
       state.isLoading = false;
     },
 
-    [addItem.pending]: () => {
+    [addItem.pending]: state => {
       console.log('POST request sent');
+      state.isAdding = true;
     },
     [addItem.fulfilled]: (state, { payload }) => {
       state.items.push(payload);
+      state.isAdding = false;
     },
-    [addItem.rejected]: (_, { payload }) => {
+    [addItem.rejected]: (state, { payload }) => {
       console.log(payload);
+      state.isAdding = false;
     },
 
-    [removeItem.pending]: () => {
+    [removeItem.pending]: state => {
       console.log('DELETE request sent');
+      state.isDeleting = true;
     },
     [removeItem.fulfilled]: (state, { payload }) => {
       state.items = state.items.filter(item => item.id !== payload);
+      state.isDeleting = false;
     },
-    [removeItem.rejected]: (_, { payload }) => {
+    [removeItem.rejected]: (state, { payload }) => {
       console.log(payload);
+      state.isDeleting = false;
     },
   },
 });
